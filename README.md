@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/mbranch/safe-go)](https://goreportcard.com/report/github.com/mbranch/safe-go)
 
 Package safe provides helpers for gracefully handling panics in background
-goroutines.
+goroutines[^1].
 
 ## Example Usage
 
@@ -35,3 +35,7 @@ func main() {
   }
 }
 ```
+
+[^1]:
+    This repo is a copy (not a fork) of [github.com/deliveroo/safe-go](https://github.com/deliveroo/safe-go) which was
+    deleted. It will be maintained separately from the original repo.
