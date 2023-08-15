@@ -1,27 +1,13 @@
-# Ensure that we use vendored binaries before consulting the system.
 GOBIN=$(shell pwd)/bin
-export PATH := $(GOBIN):$(PATH)
 
-# Use Go modules.
-export GO111MODULE := on
+all: lint test
 
-golangci-lint=$(GOBIN)/golangci-lint
-$(golangci-lint):
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOBIN) v1.51.2
-
-all: install lint test
-
-.PHONY: install
-install: ## Install the library.
-	@go install ./...
+$(GOBIN)/golangci-lint:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOBIN) v1.54.1
 
 .PHONY: lint
-lint: $(golangci-lint) ## Lint the project with golangci-lint.
-	$(golangci-lint) run --config ./.golangci.yml ./...
-
-.PHONY: setup
-setup:  ## Download dependencies.
-	@GOBIN=$(GOBIN) go mod download
+lint: $(GOBIN)/golangci-lint ## Lint the project with golangci-lint.
+	@$(GOBIN)/golangci-lint run ./...
 
 .PHONY: test
 test:  ## Run tests.

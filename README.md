@@ -1,6 +1,7 @@
 # Package Safe
 
-[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg)](http://godoc.mbranch.net/github.com/mbranch/safe-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/mbranch/safe-go.svg)](https://pkg.go.dev/github.com/mbranch/safe-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mbranch/safe-go)](https://goreportcard.com/report/github.com/mbranch/safe-go)
 
 Package safe provides helpers for gracefully handling panics in background
 goroutines.
@@ -22,13 +23,10 @@ func main() {
 
   g, groupCtx := safe.GroupWithContext(ctx)
   for _, item := range items {
-    // Why do we need this wrapper?
-    // See: https://medium.com/@julienetienne/golang-for-loop-concurrency-quirk-95e6b184cfe
-    func(itemVal int) {
-      g.Go(func() error {
-        return processItem(groupCtx, itemVal)
-      })
-    }(item)
+    i := item
+    g.Go(func() error {
+      return processItem(groupCtx, i)
+    })
   }
 
   err := g.Wait()
